@@ -1,3 +1,5 @@
+import { createUser } from "~/server/database/users";
+
 export default defineEventHandler(async (event) => {
   const body = getQuery(event);
 
@@ -35,7 +37,27 @@ export default defineEventHandler(async (event) => {
     );
   }
 
+  if (password !== confirmPassword) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 422,
+        statusMessage: "The password confirmation doesn’t match the password.",
+      }),
+    );
+  }
+
+  const userData = {
+    username,
+    email,
+    password,
+    name,
+    avatar: "https://picsum.photos/200/200",
+  };
+
+  const user = await createUser(userData);
+
   return {
-    body: body,
+    body: user,
   };
 });
