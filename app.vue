@@ -10,11 +10,9 @@
               <SidebarLeft />
             </div>
           </div>
-          <!--    Main Content    -->
-          <main class="col-span-12 md:col-span-8 xl:col-span-6 bg-red-500">
-            <h1>hey</h1>
+          <main class="col-span-12 md:col-span-8 xl:col-span-6">
+            <router-view />
           </main>
-          <!--    Right Sidebar    -->
           <div class="hidden md:block xl:col-span-4 md:col-span-3">
             <div class="sticky top-0">
               <SidebarRight />
