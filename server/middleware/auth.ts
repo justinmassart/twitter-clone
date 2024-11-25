@@ -1,6 +1,11 @@
 import UrlPattern from "url-pattern";
 import { decodeAccessToken } from "../utils/jwt";
 import { getUserById } from "../database/users";
+import type { JwtPayload } from "jsonwebtoken";
+
+function isJwtPayload(decoded: string | JwtPayload): decoded is JwtPayload {
+  return (decoded as JwtPayload).userId !== undefined;
+}
 
 export default defineEventHandler(async (event) => {
   const endpoints = ["/api/auth/user"];
@@ -29,7 +34,7 @@ export default defineEventHandler(async (event) => {
 
   const decoded = decodeAccessToken(token);
 
-  if (!decoded) {
+  if (!decoded || !isJwtPayload(decoded)) {
     return sendError(
       event,
       createError({

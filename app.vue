@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { NuxtPage } from "#components";
 import useAuth from "~/components/composables/useAuth";
 const { useAuthUser, initAuth } = useAuth();
+
 const darkMode = ref(false);
 const user = useAuthUser();
 

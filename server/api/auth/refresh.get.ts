@@ -1,15 +1,20 @@
 import { getRefreshTokenByToken } from "~/server/database/refreshTokens";
 import { getUserById } from "~/server/database/users";
-import { decodeRefreshToken } from "~/server/utils/jwt";
-import useAuth from "~/components/composables/useAuth";
+import { decodeRefreshToken, generateTokens } from "~/server/utils/jwt";
+import { getCookie } from "h3";
+
+interface TokenPayload {
+  userId: string;
+}
+
+function isTokenPayload(token: any): token is TokenPayload {
+  return (token as TokenPayload).userId !== undefined;
+}
 
 export default defineEventHandler(async (event) => {
-  const refreshToken = getCookie(event, "refresh_token");
-  console.log("Received refresh token:", refreshToken);
+  const refreshTokenCookie = getCookie(event, "refresh_token");
 
-  const { useAuthUser } = useAuth();
-
-  if (!refreshToken) {
+  if (!refreshTokenCookie) {
     return sendError(
       event,
       createError({
@@ -19,7 +24,7 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  const rToken = await getRefreshTokenByToken(refreshToken);
+  const rToken = await getRefreshTokenByToken(refreshTokenCookie);
 
   if (!rToken) {
     return sendError(
@@ -31,14 +36,14 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  const token = decodeRefreshToken(refreshToken);
+  const token = decodeRefreshToken(refreshTokenCookie);
 
-  if (!token) {
+  if (!token || !isTokenPayload(token)) {
     return sendError(
       event,
       createError({
         statusCode: 401,
-        statusMessage: "The refresh token is expired.",
+        statusMessage: "The refresh token is expired or invalid.",
       }),
     );
   }

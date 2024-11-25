@@ -2,6 +2,7 @@ import { getUserByUsername } from "~/server/database/users";
 import bcrypt from "bcrypt";
 import { generateTokens, saveRefreshToken } from "~/server/utils/jwt";
 import { createRefreshToken } from "~/server/database/refreshTokens";
+import { userTransformer } from "~/server/transformers/user";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -63,12 +64,10 @@ export default defineEventHandler(async (event) => {
     userId: user.id,
   });
 
-  // FIX: create userTransformer
-
   saveRefreshToken(event, refreshToken);
 
   return {
     access_token: accessToken,
-    user: user,
+    user: userTransformer(user),
   };
 });
