@@ -1,17 +1,27 @@
+<script lang="ts" setup>
+import { NuxtPage } from "#components";
+import useAuth from "~/components/composables/useAuth";
+const { useAuthUser, initAuth } = useAuth();
+const darkMode = ref(false);
+const user = useAuthUser();
+
+onBeforeMount(async () => {
+  await initAuth();
+})
+</script>
+
 <template>
   <div :class="{ dark: darkMode }">
     <div class="bg-white dark:bg-dim-900">
-      <div class="min-h-full">
-        <div
-          class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5"
-        >
+      <div v-if="user" class="min-h-full">
+        <div class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5">
           <div class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
               <SidebarLeft />
             </div>
           </div>
           <main class="col-span-12 md:col-span-8 xl:col-span-6">
-            <router-view />
+            <NuxtPage />
           </main>
           <div class="hidden md:block xl:col-span-4 md:col-span-3">
             <div class="sticky top-0">
@@ -20,9 +30,8 @@
           </div>
         </div>
       </div>
+
+      <AuthPage v-else />
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-const darkMode = ref(false);
-</script>
