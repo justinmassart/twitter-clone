@@ -1,8 +1,8 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 export default {
   content: [],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     screens: {
       xs: "614px",
@@ -28,6 +28,5 @@ export default {
       },
     },
   },
-  plugins: [],
-} satisfies Config
-
+  plugins: [require("@tailwindcss/forms")],
+} satisfies Config;

@@ -2,9 +2,20 @@ import { getUserByUsername } from "~/server/database/users";
 import bcrypt from "bcrypt";
 import { generateTokens, saveRefreshToken } from "~/server/utils/jwt";
 import { createRefreshToken } from "~/server/database/refreshTokens";
+import { userTransformer } from "~/server/transformers/user";
 
 export default defineEventHandler(async (event) => {
-  const body = getQuery(event);
+  const body = await readBody(event);
+
+  if (!body) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 400,
+        statusMessage: "Request body is missing.",
+      }),
+    );
+  }
 
   const { username, password } = body as {
     username: string;
@@ -48,14 +59,15 @@ export default defineEventHandler(async (event) => {
 
   const { accessToken, refreshToken } = generateTokens(user);
 
-  const token = await createRefreshToken(refreshToken, user);
+  await createRefreshToken({
+    token: refreshToken,
+    userId: user.id,
+  });
 
-  saveRefreshToken(event, token);
-
-  const { password: userPassword, id: UserId, ...safeUser } = user;
+  saveRefreshToken(event, refreshToken);
 
   return {
     access_token: accessToken,
-    user: safeUser,
+    user: userTransformer(user),
   };
 });

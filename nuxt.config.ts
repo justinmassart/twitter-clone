@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
   runtimeConfig: {
-    jwtAccessToken: process.env.JWT_ACCESS_TOKEN_SECRET,
-    jwtRefreshToken: process.env.JWT_REFRESH_TOKEN_SECRET,
+    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SERCET,
+    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SERCET,
   },
+  pages: true,
 });
