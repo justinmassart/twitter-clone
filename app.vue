@@ -1,19 +1,21 @@
 <script lang="ts" setup>
 import useAuth from "~/components/composables/useAuth";
-const { useAuthUser, initAuth } = useAuth();
+const { useAuthUser, initAuth, useAuthLoading } = useAuth();
 
 const darkMode = ref(false);
+const isLoading = useAuthLoading();
 const user = useAuthUser();
 
-onBeforeMount(async () => {
-  await initAuth();
+onBeforeMount(() => {
+  initAuth();
 })
 </script>
 
 <template>
   <div :class="{ dark: darkMode }">
     <div class="bg-white dark:bg-dim-900">
-      <div v-if="user" class="min-h-full">
+      <LoadingPage v-if="isLoading" />
+      <div v-else-if="user" class="min-h-full">
         <div class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5">
           <div class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
@@ -30,7 +32,6 @@ onBeforeMount(async () => {
           </div>
         </div>
       </div>
-
       <AuthPage v-else />
     </div>
   </div>
