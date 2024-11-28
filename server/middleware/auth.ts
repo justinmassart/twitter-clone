@@ -8,7 +8,7 @@ function isJwtPayload(decoded: string | JwtPayload): decoded is JwtPayload {
 }
 
 export default defineEventHandler(async (event) => {
-  const endpoints = ["/api/auth/user"];
+  const endpoints = ["/api/auth/user", "/api/user/tweets", "/api/tweets"];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {
     const pattern = new UrlPattern(endpoint);
