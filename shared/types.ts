@@ -25,3 +25,15 @@ export interface TransformedTweet {
 export interface TweetsResponse {
   tweets: TransformedTweet[];
 }
+
+export interface TweetResponse {
+  tweet: TransformedTweet;
+}
+
+export interface UserType {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  avatar: string | null;
+}
