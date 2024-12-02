@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import useTailwindConfig from '~/components/composables/useTailwindConfig';
+import type { UserType } from '~/shared/types';
 
-const props = defineProps({
-    user: {
-        type: Object,
-        required: true,
-    }
-});
+defineProps<{
+    user: UserType;
+    placeholder?: string;
+}>();
 const emits = defineEmits(['onSubmit']);
 
 const { twitterBorderColor } = useTailwindConfig();
@@ -43,12 +42,12 @@ function handleImageChange(event: any) {
     <div>
         <div class="flex items-center flex-shrink-0 p-4 pb-0">
             <div class="flex w-12 items-top">
-                <img :src="props.user.avatar" alt="" class="inline-block w-10 h-10 rounded-full">
+                <img :src="user.avatar ?? ''" alt="" class="inline-block w-10 h-10 rounded-full">
             </div>
             <div class="w-full p-2">
                 <textarea v-model="text"
                     class="w-full min-h-10 h-10 text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0 overflow-hidden"
-                    placeholder="What’s new ?"></textarea>
+                    :placeholder="placeholder ?? 'What’s new ?'"></textarea>
             </div>
         </div>
         <div class="p-4 pl-16">

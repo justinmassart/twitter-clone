@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import useTweets from '~/components/composables/useTweets';
+import type { TransformedTweet } from '~/shared/types';
 
-const props = defineProps({
-    user: {
-        type: Object,
-        required: true,
-    }
-})
+const props = defineProps<{
+    user: any;
+    placeholder?: string;
+    replyTo?: TransformedTweet;
+}>()
 
+const emits = defineEmits(['onSuccess'])
 const { postTweet } = useTweets();
 const loading = ref(false)
 
@@ -20,8 +21,10 @@ async function handleFormSubmit(data: {
     try {
         const response = await postTweet({
             text: data.text,
-            mediaFiles: data.mediaFiles
+            mediaFiles: data.mediaFiles,
+            replyTo: props.replyTo?.id
         });
+        emits('onSuccess', response.tweet)
     } catch (error) {
         console.log(error);
     } finally {
@@ -36,7 +39,7 @@ async function handleFormSubmit(data: {
             <UISpinner />
         </div>
         <div v-else>
-            <TweetFormInput :user="props.user" @on-submit="handleFormSubmit" />
+            <TweetFormInput :placeholder="placeholder" :user="user" @on-submit="handleFormSubmit" />
         </div>
     </form>
 </template>

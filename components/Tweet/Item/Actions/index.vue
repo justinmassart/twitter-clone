@@ -7,42 +7,52 @@ import {
 } from "@heroicons/vue/24/outline";
 import type { TransformedTweet } from "~/shared/types";
 
-defineProps<{
-    tweet: TransformedTweet;
-}>()
+const props = defineProps({
+    tweet: {
+        type: Object as PropType<TransformedTweet>,
+        required: true,
+    },
+    compact: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
+})
+
+const size = computed(() => props.compact ? 5 : 8)
 </script>
 
 <template>
     <div class="flex items-center justify-around w-full">
-        <TweetItemActionsIcon color="blue">
+        <TweetItemActionsIcon color="blue" :size>
             <template v-slot:icon="{ classes }">
                 <ChatBubbleOvalLeftEllipsisIcon :class="classes" />
             </template>
-            <template v-slot:count>
+            <template v-if="compact" v-slot:count>
                 {{ tweet.repliesCount }}
             </template>
         </TweetItemActionsIcon>
-        <TweetItemActionsIcon color="green">
+        <TweetItemActionsIcon color="green" :size>
             <template v-slot:icon="{ classes }">
                 <ArrowPathRoundedSquareIcon :class="classes" />
             </template>
-            <template v-slot:count>
+            <template v-if="compact" v-slot:count>
                 {{ Math.floor(Math.random() * 1000) }}
             </template>
         </TweetItemActionsIcon>
-        <TweetItemActionsIcon color="red">
+        <TweetItemActionsIcon color="red" :size>
             <template v-slot:icon="{ classes }">
                 <HeartIcon :class="classes" />
             </template>
-            <template v-slot:count>
+            <template v-if="compact" v-slot:count>
                 {{ Math.floor(Math.random() * 1000) }}
             </template>
         </TweetItemActionsIcon>
-        <TweetItemActionsIcon color="blue">
+        <TweetItemActionsIcon color="blue" :size>
             <template v-slot:icon="{ classes }">
                 <ArrowUpTrayIcon :class="classes" />
             </template>
-            <template v-slot:count>
+            <template v-if="compact" v-slot:count>
                 {{ Math.floor(Math.random() * 1000) }}
             </template>
         </TweetItemActionsIcon>

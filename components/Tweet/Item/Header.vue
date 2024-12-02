@@ -14,7 +14,7 @@ defineProps<{
                 class="w-10 h-10 rounded-full">
             <span class="ml-3 font-medium text-gray-800 dark:text-white">{{ tweet.author.name }}</span>
             <span class="ml-3 flex gap-3 items-center text-sm font-medium text-gray-400 dark:text-white">
-                <NuxtLink to="#">{{ tweet.author.handle }}</NuxtLink>
+                <NuxtLink :to="`/status/${tweet.id}`">{{ tweet.author.handle }}</NuxtLink>
                 {{ tweet.postedAtHuman }}
             </span>
         </div>
