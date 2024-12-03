@@ -8,13 +8,21 @@ import {
   HashtagIcon,
   InboxIcon,
   UserIcon,
-  PencilIcon
+  PencilIcon,
+  ChevronDownIcon
 } from "@heroicons/vue/24/outline";
 import useTailwindConfig from "~/components/composables/useTailwindConfig";
 
-const { defaultTransition } = useTailwindConfig()
+const emits = defineEmits(['onTweet', 'onLogout'])
+defineProps({
+  user: {
+    type: Object,
+    required: true,
+  }
+})
 
-const emits = defineEmits(['onTweet'])
+const { defaultTransition } = useTailwindConfig()
+const authMenuOpen = ref(false)
 </script>
 
 <template>
@@ -87,6 +95,26 @@ const emits = defineEmits(['onTweet'])
           </div>
         </UIButton>
       </div>
+    </div>
+    <div @mouseleave="authMenuOpen = false"
+      class="flex flex-row items-center justify-between px-2 py-2 w-full mt-auto mb-5 rounded-full hover:bg-gray-100 dark:hover:bg-dim-800 relative"
+      :class="defaultTransition">
+      <div @click="authMenuOpen = !authMenuOpen"
+        class="flex flex-row items-center justify-between w-full cursor-pointer">
+        <img :src="user.avatar ?? '/'" alt="" class="w-10 h-10 rounded-full">
+        <div class="flex-col hidden ml-2 xl:block">
+          <p class="text-sm font-bold text-gray-800 dark:text-white">{{ user.username }}</p>
+          <p class="text-sm text-gray-400">{{ user.handle }}</p>
+        </div>
+        <div class="hidden ml-auto xl:block">
+          <ChevronDownIcon class="w-6 h-6" />
+        </div>
+      </div>
+      <ul v-if="authMenuOpen"
+        class="absolute left-0 right-0 bottom-0 bg-gray-100 rounded-2xl border flex flex-col gap-2 overflow-hidden">
+        <li class="p-2 cursor-pointer hover:bg-gray-200">My profile</li>
+        <li @click="emits('onLogout')" class="p-2 cursor-pointer hover:bg-gray-200">Logout</li>
+      </ul>
     </div>
   </div>
 </template>

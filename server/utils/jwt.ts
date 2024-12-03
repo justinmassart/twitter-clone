@@ -1,6 +1,6 @@
 import type { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { H3Event, setCookie } from "h3";
+import { H3Event, setCookie, deleteCookie } from "h3";
 
 const generateAccessToken = (user: User) => {
   const config = useRuntimeConfig();
@@ -53,4 +53,8 @@ export const saveRefreshToken = (event: H3Event, refreshToken: string) => {
     httpOnly: true,
     sameSite: true,
   });
+};
+
+export const deleteSavedCookie = (event: H3Event, cookieName: string) => {
+  deleteCookie(event, cookieName);
 };
