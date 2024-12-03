@@ -6,6 +6,26 @@ import type {
 import useFetchApi from "./useFetchApi";
 
 export default () => {
+  const usePostTweetModal = () => useState("post_tweet_modal", () => false);
+  const useReplyTweet = () =>
+    useState<TransformedTweet | null>("reply_tweet", () => null);
+
+  const closePostTweetModal = () => {
+    const postTweetModal = usePostTweetModal();
+    postTweetModal.value = false;
+  };
+
+  const setReplyTo = (tweet: TransformedTweet | null) => {
+    const replyTweet = useReplyTweet();
+    replyTweet.value = tweet;
+  };
+
+  const openPostTweetModal = (tweet: TransformedTweet | null) => {
+    const postTweetModal = usePostTweetModal();
+    postTweetModal.value = true;
+    setReplyTo(tweet);
+  };
+
   const postTweet = (formData: {
     text: string;
     mediaFiles: [];
@@ -61,5 +81,9 @@ export default () => {
     postTweet,
     getHomeTweets,
     getTweetById,
+    usePostTweetModal,
+    closePostTweetModal,
+    openPostTweetModal,
+    useReplyTweet,
   };
 };

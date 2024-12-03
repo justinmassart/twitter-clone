@@ -12,7 +12,9 @@ import {
 } from "@heroicons/vue/24/outline";
 import useTailwindConfig from "~/components/composables/useTailwindConfig";
 
-const { defaultTransition } = useTailwindConfig();
+const { defaultTransition } = useTailwindConfig()
+
+const emits = defineEmits(['onTweet'])
 </script>
 
 <template>
@@ -74,12 +76,12 @@ const { defaultTransition } = useTailwindConfig();
         <template v-slot:name>More</template>
       </SidebarLeftTab>
       <div class="hidden xl:block">
-        <UIButton liquid size="lg">
+        <UIButton liquid size="lg" @click="emits('onTweet')">
           <span class="font-bold">Tweet</span>
         </UIButton>
       </div>
       <div class="block xl:hidden">
-        <UIButton>
+        <UIButton @click="emits('onTweet')">
           <div class="w-6 h-6 font-bold">
             <PencilIcon />
           </div>

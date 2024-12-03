@@ -1,12 +1,24 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue';
 import useTweets from '~/components/composables/useTweets';
 import type { TransformedTweet } from '~/shared/types';
 
-const props = defineProps<{
-    user: any;
-    placeholder?: string;
-    replyTo?: TransformedTweet;
-}>()
+const props = defineProps({
+    user: {
+        type: Object as PropType<any>,
+        required: true,
+    },
+    placeholder: {
+        type: String,
+    },
+    replyTo: {
+        type: Object as PropType<TransformedTweet | null>,
+    },
+    showReply: {
+        type: Boolean,
+        default: false,
+    }
+})
 
 const emits = defineEmits(['onSuccess'])
 const { postTweet } = useTweets();
@@ -39,6 +51,7 @@ async function handleFormSubmit(data: {
             <UISpinner />
         </div>
         <div v-else>
+            <TweetItem :tweet="$props.replyTo" v-if="$props.replyTo && $props.showReply" hideActions />
             <TweetFormInput :placeholder="placeholder" :user="user" @on-submit="handleFormSubmit" />
         </div>
     </form>

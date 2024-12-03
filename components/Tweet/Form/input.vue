@@ -2,7 +2,7 @@
 import useTailwindConfig from '~/components/composables/useTailwindConfig';
 import type { UserType } from '~/shared/types';
 
-defineProps<{
+const props = defineProps<{
     user: UserType;
     placeholder?: string;
 }>();
@@ -42,7 +42,8 @@ function handleImageChange(event: any) {
     <div>
         <div class="flex items-center flex-shrink-0 p-4 pb-0">
             <div class="flex w-12 items-top">
-                <img :src="user.avatar ?? ''" alt="" class="inline-block w-10 h-10 rounded-full">
+                <img :src="user.avatar ?? 'https://picsum.photos/200/200'" alt=""
+                    class="inline-block w-10 h-10 rounded-full">
             </div>
             <div class="w-full p-2">
                 <textarea v-model="text"
