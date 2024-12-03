@@ -9,6 +9,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SERCET,
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SERCET,
+    cldCloudName: process.env.CLD_CLOUD_NAME,
+    cldApiKey: process.env.CLD_API_KEY,
+    cldApiSecret: process.env.CLD_API_SECRET,
+    cldApiEnv: process.env.CLD_API_ENV,
   },
   pages: true,
 });

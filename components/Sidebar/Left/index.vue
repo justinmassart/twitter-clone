@@ -1,9 +1,25 @@
+<script lang="ts" setup>
+import { HomeIcon } from "@heroicons/vue/24/solid";
+import {
+  BellIcon,
+  BookmarkIcon,
+  DocumentTextIcon,
+  EllipsisHorizontalCircleIcon,
+  HashtagIcon,
+  InboxIcon,
+  UserIcon,
+  PencilIcon
+} from "@heroicons/vue/24/outline";
+import useTailwindConfig from "~/components/composables/useTailwindConfig";
+
+const { defaultTransition } = useTailwindConfig()
+
+const emits = defineEmits(['onTweet'])
+</script>
+
 <template>
   <div class="h-screen flex flex-col">
-    <div
-      :class="defaultTransition"
-      class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/20"
-    >
+    <div :class="defaultTransition" class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/20">
       <nuxt-link class="w-full h-full" to="/">
         <div class="w-8 h-8">
           <LogoTwitter />
@@ -59,21 +75,18 @@
         </template>
         <template v-slot:name>More</template>
       </SidebarLeftTab>
+      <div class="hidden xl:block">
+        <UIButton liquid size="lg" @click="emits('onTweet')">
+          <span class="font-bold">Tweet</span>
+        </UIButton>
+      </div>
+      <div class="block xl:hidden">
+        <UIButton @click="emits('onTweet')">
+          <div class="w-6 h-6 font-bold">
+            <PencilIcon />
+          </div>
+        </UIButton>
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import { HomeIcon } from "@heroicons/vue/24/solid";
-import {
-  BellIcon,
-  BookmarkIcon,
-  DocumentTextIcon,
-  EllipsisHorizontalCircleIcon,
-  HashtagIcon,
-  InboxIcon,
-  UserIcon,
-} from "@heroicons/vue/24/outline";
-import useTailwindConfig from "~/components/composables/useTailwindConfig";
-
-const { defaultTransition } = useTailwindConfig();
-</script>
