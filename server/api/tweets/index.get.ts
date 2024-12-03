@@ -2,7 +2,9 @@ import { getTweets } from "~/server/database/tweets";
 import { tweetTransformer } from "~/server/transformers/tweet";
 
 export default defineEventHandler(async (event) => {
-  const tweets = await getTweets({
+  const { q } = getQuery(event);
+
+  const prismaQuery: any = {
     include: {
       author: true,
       mediaFiles: true,
@@ -24,7 +26,18 @@ export default defineEventHandler(async (event) => {
         createdAt: "desc",
       },
     ],
-  });
+  };
+
+  if (q) {
+    prismaQuery.where = {
+      text: {
+        contains: q,
+        mode: "insensitive",
+      },
+    };
+  }
+
+  const tweets = await getTweets(prismaQuery);
 
   return {
     tweets: tweets.map(tweetTransformer),

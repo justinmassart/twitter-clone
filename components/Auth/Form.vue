@@ -24,9 +24,18 @@ async function handleLogin() {
 </script>
 
 <template>
-  <form class="pt-5 space-y-6" method="POST" @submit.prevent="handleLogin">
-    <UIInput v-model="data.username" label="Username" placeholder="@MyUsername"></UIInput>
-    <UIInput v-model="data.password" label="Password" placeholder="••••••••••••••" type="password"></UIInput>
-    <button type="submit">Submit</button>
-  </form>
+  <div class="flex flex-col w-full">
+    <div class="flex justify-center">
+      <div class="w-10 h-10">
+        <LogoTwitter />
+      </div>
+    </div>
+    <form class="pt-5 space-y-6 w-full" method="POST" @submit.prevent="handleLogin">
+      <UIInput v-model="data.username" label="Username" placeholder="@MyUsername"></UIInput>
+      <UIInput v-model="data.password" label="Password" placeholder="••••••••••••••" type="password"></UIInput>
+      <UIButton liquid :disabled="!data.username || !data.password || data.loading" type="submit">
+        Login
+      </UIButton>
+    </form>
+  </div>
 </template>

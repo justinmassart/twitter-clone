@@ -14,12 +14,12 @@ export default () => {
   const useAuthUser = () => useState("auth_user");
   const useAuthLoading = () => useState("auth_loading", () => true);
 
-  const setToken = (newToken: string) => {
+  const setToken = (newToken: string | null) => {
     const authToken = useAuthToken();
     authToken.value = newToken;
   };
 
-  const setUser = (newUser: User) => {
+  const setUser = (newUser: User | null) => {
     const authUser = useAuthUser();
     authUser.value = newUser;
   };
@@ -57,6 +57,20 @@ export default () => {
         setToken(data.access_token);
         setUser(data.user);
         resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  const logout = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await useFetchApi("/api/auth/logout", {
+          method: "POST",
+        });
+        setToken(null);
+        setUser(null);
       } catch (error) {
         reject(error);
       }
@@ -152,6 +166,7 @@ export default () => {
 
   return {
     login,
+    logout,
     useAuthToken,
     useAuthUser,
     useAuthLoading,

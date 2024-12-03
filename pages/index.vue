@@ -6,7 +6,7 @@ import type { TransformedTweet } from '~/shared/types';
 
 const { useAuthUser } = useAuth()
 const { twitterBorderColor } = useTailwindConfig()
-const { getHomeTweets } = useTweets()
+const { getTweets } = useTweets()
 
 const user: Record<string, any> = useAuthUser()
 const isLoading = ref(false)
@@ -21,7 +21,7 @@ function handleFormSuccess(tweet: TransformedTweet) {
 onBeforeMount(async () => {
   isLoading.value = true
   try {
-    const { tweets } = await getHomeTweets()
+    const { tweets } = await getTweets()
     homeTweets.value = tweets
   } catch (error) {
     console.log(error)
