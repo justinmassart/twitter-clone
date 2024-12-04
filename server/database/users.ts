@@ -10,12 +10,6 @@ export const createUser = (userData: Prisma.UserCreateInput) => {
 
   return prisma.user.create({
     data: finalUserData,
-    omit: {
-      id: true,
-      password: true,
-      createdAt: true,
-      updatedAt: true,
-    },
   });
 };
 

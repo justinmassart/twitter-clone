@@ -1,7 +1,7 @@
 import { createUser } from "~/server/database/users";
 
 export default defineEventHandler(async (event) => {
-  const body = getQuery(event);
+  const body = await readBody(event);
 
   const { username, email, password, confirmPassword, name } = body as {
     username: string;
@@ -58,6 +58,6 @@ export default defineEventHandler(async (event) => {
   const user = await createUser(userData);
 
   return {
-    body: user,
+    user,
   };
 });

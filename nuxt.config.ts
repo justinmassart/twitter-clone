@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     cldCloudName: process.env.CLD_CLOUD_NAME,
     cldApiKey: process.env.CLD_API_KEY,
     cldApiSecret: process.env.CLD_API_SECRET,
-    cldApiEnv: process.env.CLD_API_ENV,
   },
   pages: true,
 });
