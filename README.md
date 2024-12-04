@@ -13,7 +13,7 @@
 
 ## Introduction
 
-Feel free to visit and test this project [here]('https://twitter-clone-git-develop-justin-massarts-projects.vercel.app/').
+Feel free to visit and test this project [here](https://twitter-clone-git-develop-justin-massarts-projects.vercel.app).
 
 I made this project following a YouTube tutorial to primarily learn Vue 3 and Nuxt 3, and also MongoDB and Prisma.
 
