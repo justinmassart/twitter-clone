@@ -63,6 +63,48 @@ export default () => {
     });
   };
 
+  const register = ({
+    username,
+    email,
+    password,
+    confirmPassword,
+    name,
+  }: {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    name: string;
+  }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { user } = await $fetch("/api/auth/register", {
+          method: "POST",
+          body: {
+            username,
+            email,
+            password,
+            confirmPassword,
+            name,
+          },
+        });
+        if (!user) {
+          throw createError({
+            statusCode: 400,
+            statusMessage: "Register request returned nothing.",
+          });
+        }
+        await login({
+          username,
+          password,
+        });
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   const logout = () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -165,6 +207,7 @@ export default () => {
   };
 
   return {
+    register,
     login,
     logout,
     useAuthToken,
