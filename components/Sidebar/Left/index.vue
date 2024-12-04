@@ -112,7 +112,6 @@ const authMenuOpen = ref(false)
       </div>
       <ul v-if="authMenuOpen"
         class="absolute left-0 right-0 bottom-0 bg-gray-100 rounded-2xl border flex flex-col gap-2 overflow-hidden">
-        <li class="p-2 cursor-pointer hover:bg-gray-200">My profile</li>
         <li @click="emits('onLogout')" class="p-2 cursor-pointer hover:bg-gray-200">Logout</li>
       </ul>
     </div>
