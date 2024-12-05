@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Analytics } from '@vercel/analytics/nuxt';
 import useAuth from "~/components/composables/useAuth";
 import type { TransformedTweet } from "./shared/types";
 import useTweets from "./components/composables/useTweets";
@@ -46,6 +47,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
+  <Analytics />
   <div :class="{ dark: darkMode }">
     <div class="bg-white dark:bg-dim-900">
       <LoadingPage v-if="isLoading" />
